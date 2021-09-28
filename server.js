@@ -3,7 +3,7 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const compression = require("compression");
 
-const PORT = process.env.PORT||3000;
+
 
 const app = express();
 
@@ -22,11 +22,18 @@ mongoose.connect(
     useCreateIndex: true,
     useFindAndModify: false
 
+}).then(() => {
+  console.info("MongoDB Client 🏃🏾‍♂️");
+})
+.catch((err) => {
+  console.error("Error starting MongoDB Client", err.message);
+
+  process.exit(1);
 });
 
 // routes
 app.use(require("./routes/api.js"));
 
 app.listen(process.env.PORT || 5000, () => {
-  console.log(`App running on port ${PORT}!`);
+  console.log(`App running!`);
 });
