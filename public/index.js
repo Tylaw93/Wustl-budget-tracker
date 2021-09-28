@@ -2,7 +2,6 @@ let transactions = [];
 let myChart;
 
 
-
 function populateTotal() {
   // reduce transaction amounts to a single total value
   let total = transactions.reduce((total, t) => {
@@ -51,6 +50,21 @@ function populateChart() {
     myChart.destroy();
   }
 
+  function sendTransaction(isAdding) {
+    let nameEl = document.querySelector("#t-name");
+    let amountEl = document.querySelector("#t-amount");
+    let errorEl = document.querySelector(".form .error");
+  
+    // validate form
+    if (nameEl.value === "" || amountEl.value === "") {
+      errorEl.textContent = "Missing Information";
+      return;
+    }
+    else {
+      errorEl.textContent = "";
+    }
+  
+
   let ctx = document.getElementById("myChart").getContext("2d");
 
   myChart = new Chart(ctx, {
@@ -67,19 +81,6 @@ function populateChart() {
   });
 }
 
-function sendTransaction(isAdding) {
-  let nameEl = document.querySelector("#t-name");
-  let amountEl = document.querySelector("#t-amount");
-  let errorEl = document.querySelector(".form .error");
-
-  // validate form
-  if (nameEl.value === "" || amountEl.value === "") {
-    errorEl.textContent = "Missing Information";
-    return;
-  }
-  else {
-    errorEl.textContent = "";
-  }
 
   // create record
   let transaction = {
