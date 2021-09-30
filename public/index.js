@@ -49,22 +49,6 @@ function populateChart() {
   if (myChart) {
     myChart.destroy();
   }
-
-  function sendTransaction(isAdding) {
-    let nameEl = document.querySelector("#t-name");
-    let amountEl = document.querySelector("#t-amount");
-    let errorEl = document.querySelector(".form .error");
-  
-    // validate form
-    if (nameEl.value === "" || amountEl.value === "") {
-      errorEl.textContent = "Missing Information";
-      return;
-    }
-    else {
-      errorEl.textContent = "";
-    }
-  
-
   let ctx = document.getElementById("myChart").getContext("2d");
 
   myChart = new Chart(ctx, {
@@ -81,6 +65,19 @@ function populateChart() {
   });
 }
 
+function sendTransaction(isAdding) {
+  let nameEl = document.querySelector("#t-name");
+  let amountEl = document.querySelector("#t-amount");
+  let errorEl = document.querySelector(".form .error");
+
+  // validate form
+  if (nameEl.value === "" || amountEl.value === "") {
+    errorEl.textContent = "Missing Information";
+    return;
+  }
+  else {
+    errorEl.textContent = "";
+  }
 
   // create record
   let transaction = {
@@ -101,7 +98,7 @@ function populateChart() {
   populateChart();
   populateTable();
   populateTotal();
-  
+
   // also send to server
   fetch("/api/transaction", {
     method: "POST",
@@ -111,7 +108,7 @@ function populateChart() {
       "Content-Type": "application/json"
     }
   })
-  .then(response => {    
+  .then(response => {
     return response.json();
   })
   .then(data => {
@@ -132,20 +129,7 @@ function populateChart() {
     nameEl.value = "";
     amountEl.value = "";
   });
-}
 
-fetch("/api/transaction")
-  .then(response => {
-    return response.json();
-  })
-  .then(data => {
-    // save db data on global variable
-    transactions = data;
-
-    populateTotal();
-    populateTable();
-    populateChart();
-  });
 
 document.querySelector("#add-btn").onclick = function() {
   sendTransaction(true);
@@ -154,3 +138,6 @@ document.querySelector("#add-btn").onclick = function() {
 document.querySelector("#sub-btn").onclick = function() {
   sendTransaction(false);
 };
+
+
+}

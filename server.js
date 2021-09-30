@@ -31,12 +31,6 @@ mongoose.connect(
   process.exit(1);
 });
 
-process.on("SIGINT", () => {
-  client.close().then(() => {
-    console.info("MongoDB Client disconnected");
-    process.exit(0);
-  });
-});
 
 // routes
 app.use(require("./routes/api.js"));
