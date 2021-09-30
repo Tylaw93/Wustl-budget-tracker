@@ -1,6 +1,18 @@
 let transactions = [];
 let myChart;
 
+fetch("/api/transaction")
+  .then(response => {
+    return response.json();
+  })
+  .then(data => {
+    // save db data on global variable
+    transactions = data;
+
+    populateTotal();
+    populateTable();
+    populateChart();
+  });
 
 function populateTotal() {
   // reduce transaction amounts to a single total value
@@ -49,6 +61,7 @@ function populateChart() {
   if (myChart) {
     myChart.destroy();
   }
+
   let ctx = document.getElementById("myChart").getContext("2d");
 
   myChart = new Chart(ctx, {
@@ -129,7 +142,7 @@ function sendTransaction(isAdding) {
     nameEl.value = "";
     amountEl.value = "";
   });
-
+}
 
 document.querySelector("#add-btn").onclick = function() {
   sendTransaction(true);
@@ -138,6 +151,3 @@ document.querySelector("#add-btn").onclick = function() {
 document.querySelector("#sub-btn").onclick = function() {
   sendTransaction(false);
 };
-
-
-}
